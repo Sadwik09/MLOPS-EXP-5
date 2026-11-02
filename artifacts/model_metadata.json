@@ -1,0 +1,924 @@
+{
+  "model_name": "CKD Random Forest Classifier",
+  "model_version": "1.0.0",
+  "algorithm": "RandomForestClassifier (300 trees, max_depth=2, min_samples_leaf=15, max_features='sqrt', class_weight='balanced') in a scikit-learn Pipeline",
+  "hyperparameters": {
+    "n_estimators": 300,
+    "max_depth": 2,
+    "min_samples_leaf": 15,
+    "max_features": "sqrt",
+    "class_weight": "balanced"
+  },
+  "pipeline_steps": [
+    "ColumnTransformer",
+    "numeric: SimpleImputer(median) -> StandardScaler",
+    "categorical: SimpleImputer(most_frequent) -> OneHotEncoder(handle_unknown='ignore')",
+    "RandomForestClassifier(n_estimators=300, max_depth=2, min_samples_leaf=15, max_features='sqrt', class_weight='balanced')"
+  ],
+  "n_features": 24,
+  "feature_names": [
+    "age",
+    "bp",
+    "sg",
+    "al",
+    "su",
+    "rbc",
+    "pc",
+    "pcc",
+    "ba",
+    "bgr",
+    "bu",
+    "sc",
+    "sod",
+    "pot",
+    "hemo",
+    "pcv",
+    "wc",
+    "rc",
+    "htn",
+    "dm",
+    "cad",
+    "appet",
+    "pe",
+    "ane"
+  ],
+  "required_features": [
+    "age",
+    "bp",
+    "sg",
+    "al",
+    "sc",
+    "hemo"
+  ],
+  "features": [
+    {
+      "name": "age",
+      "label": "Age",
+      "type": "numeric",
+      "dtype": "float",
+      "required": true,
+      "unit": "years",
+      "description": "Patient age in years.",
+      "section": "vitals",
+      "min": 0,
+      "max": 120,
+      "step": 1,
+      "observed_min": 2.0,
+      "observed_max": 90.0
+    },
+    {
+      "name": "bp",
+      "label": "Blood Pressure",
+      "type": "numeric",
+      "dtype": "float",
+      "required": true,
+      "unit": "mmHg",
+      "description": "Diastolic blood pressure reading.",
+      "section": "vitals",
+      "min": 20,
+      "max": 250,
+      "step": 1,
+      "observed_min": 50.0,
+      "observed_max": 180.0
+    },
+    {
+      "name": "sg",
+      "label": "Urine Specific Gravity",
+      "type": "numeric",
+      "dtype": "float",
+      "required": true,
+      "unit": "",
+      "description": "Urine concentration, one of five measured levels.",
+      "section": "urine",
+      "min": 1.005,
+      "max": 1.025,
+      "step": 0.005,
+      "observed_min": 1.005,
+      "observed_max": 1.025,
+      "options": [
+        {
+          "value": 1.005,
+          "label": "1.005"
+        },
+        {
+          "value": 1.01,
+          "label": "1.010"
+        },
+        {
+          "value": 1.015,
+          "label": "1.015"
+        },
+        {
+          "value": 1.02,
+          "label": "1.020"
+        },
+        {
+          "value": 1.025,
+          "label": "1.025"
+        }
+      ]
+    },
+    {
+      "name": "al",
+      "label": "Albumin in Urine",
+      "type": "numeric",
+      "dtype": "integer",
+      "required": true,
+      "unit": "0\u20135 scale",
+      "description": "Albumin detected in urine (0 = none, 5 = heavy).",
+      "section": "urine",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "observed_min": 0.0,
+      "observed_max": 5.0
+    },
+    {
+      "name": "su",
+      "label": "Sugar in Urine",
+      "type": "numeric",
+      "dtype": "integer",
+      "required": false,
+      "unit": "0\u20135 scale",
+      "description": "Glucose detected in urine (0 = none, 5 = heavy).",
+      "section": "urine",
+      "min": 0,
+      "max": 5,
+      "step": 1,
+      "observed_min": 0.0,
+      "observed_max": 5.0
+    },
+    {
+      "name": "rbc",
+      "label": "Red Blood Cells in Urine",
+      "type": "categorical",
+      "dtype": "string",
+      "required": false,
+      "unit": "",
+      "description": "Red blood cells present in the urine sample.",
+      "section": "urine",
+      "allowed_values": [
+        "normal",
+        "abnormal"
+      ],
+      "options": [
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "abnormal",
+          "label": "Abnormal"
+        }
+      ]
+    },
+    {
+      "name": "pc",
+      "label": "Pus Cells in Urine",
+      "type": "categorical",
+      "dtype": "string",
+      "required": false,
+      "unit": "",
+      "description": "Pus (white blood) cells present in urine.",
+      "section": "urine",
+      "allowed_values": [
+        "normal",
+        "abnormal"
+      ],
+      "options": [
+        {
+          "value": "normal",
+          "label": "Normal"
+        },
+        {
+          "value": "abnormal",
+          "label": "Abnormal"
+        }
+      ]
+    },
+    {
+      "name": "pcc",
+      "label": "Pus Cell Clumps",
+      "type": "categorical",
+      "dtype": "string",
+      "required": false,
+      "unit": "",
+      "description": "Clumps of pus cells seen in urine.",
+      "section": "urine",
+      "allowed_values": [
+        "present",
+        "notpresent"
+      ],
+      "options": [
+        {
+          "value": "present",
+          "label": "Present"
+        },
+        {
+          "value": "notpresent",
+          "label": "Not present"
+        }
+      ]
+    },
+    {
+      "name": "ba",
+      "label": "Bacteria in Urine",
+      "type": "categorical",
+      "dtype": "string",
+      "required": false,
+      "unit": "",
+      "description": "Bacteria detected in the urine sample.",
+      "section": "urine",
+      "allowed_values": [
+        "present",
+        "notpresent"
+      ],
+      "options": [
+        {
+          "value": "present",
+          "label": "Present"
+        },
+        {
+          "value": "notpresent",
+          "label": "Not present"
+        }
+      ]
+    },
+    {
+      "name": "bgr",
+      "label": "Blood Glucose Random",
+      "type": "numeric",
+      "dtype": "float",
+      "required": false,
+      "unit": "mg/dL",
+      "description": "Random blood glucose measurement.",
+      "section": "blood",
+      "min": 20,
+      "max": 800,
+      "step": 1,
+      "observed_min": 22.0,
+      "observed_max": 490.0
+    },
+    {
+      "name": "bu",
+      "label": "Blood Urea",
+      "type": "numeric",
+      "dtype": "float",
+      "required": false,
+      "unit": "mg/dL",
+      "description": "Blood urea nitrogen level.",
+      "section": "blood",
+      "min": 0,
+      "max": 500,
+      "step": 1,
+      "observed_min": 1.5,
+      "observed_max": 391.0
+    },
+    {
+      "name": "sc",
+      "label": "Serum Creatinine",
+      "type": "numeric",
+      "dtype": "float",
+      "required": true,
+      "unit": "mg/dL",
+      "description": "Serum creatinine, a key kidney-function marker.",
+      "section": "blood",
+      "min": 0,
+      "max": 100,
+      "step": 0.1,
+      "observed_min": 0.4,
+      "observed_max": 76.0
+    },
+    {
+      "name": "sod",
+      "label": "Sodium",
+      "type": "numeric",
+      "dtype": "float",
+      "required": false,
+      "unit": "mEq/L",
+      "description": "Serum sodium concentration.",
+      "section": "blood",
+      "min": 1,
+      "max": 200,
+      "step": 0.1,
+      "observed_min": 4.5,
+      "observed_max": 163.0
+    },
+    {
+      "name": "pot",
+      "label": "Potassium",
+      "type": "numeric",
+      "dtype": "float",
+      "required": false,
+      "unit": "mEq/L",
+      "description": "Serum potassium concentration.",
+      "section": "blood",
+      "min": 1,
+      "max": 60,
+      "step": 0.1,
+      "observed_min": 2.5,
+      "observed_max": 47.0
+    },
+    {
+      "name": "hemo",
+      "label": "Hemoglobin",
+      "type": "numeric",
+      "dtype": "float",
+      "required": true,
+      "unit": "g/dL",
+      "description": "Hemoglobin concentration in blood.",
+      "section": "blood",
+      "min": 3,
+      "max": 20,
+      "step": 0.1,
+      "observed_min": 3.1,
+      "observed_max": 17.8
+    },
+    {
+      "name": "pcv",
+      "label": "Packed Cell Volume",
+      "type": "numeric",
+      "dtype": "float",
+      "required": false,
+      "unit": "%",
+      "description": "Packed cell volume (hematocrit).",
+      "section": "blood",
+      "min": 5,
+      "max": 60,
+      "step": 0.1,
+      "observed_min": 9.0,
+      "observed_max": 54.0
+    },
+    {
+      "name": "wc",
+      "label": "White Blood Cell Count",
+      "type": "numeric",
+      "dtype": "float",
+      "required": false,
+      "unit": "cells/cmm",
+      "description": "White blood cell count.",
+      "section": "blood",
+      "min": 1000,
+      "max": 40000,
+      "step": 100,
+      "observed_min": 2200.0,
+      "observed_max": 26400.0
+    },
+    {
+      "name": "rc",
+      "label": "Red Blood Cell Count",
+      "type": "numeric",
+      "dtype": "float",
+      "required": false,
+      "unit": "millions/cmm",
+      "description": "Red blood cell count.",
+      "section": "blood",
+      "min": 1,
+      "max": 10,
+      "step": 0.1,
+      "observed_min": 2.1,
+      "observed_max": 8.0
+    },
+    {
+      "name": "htn",
+      "label": "Hypertension",
+      "type": "categorical",
+      "dtype": "string",
+      "required": false,
+      "unit": "",
+      "description": "Has the patient been diagnosed with hypertension?",
+      "section": "history",
+      "allowed_values": [
+        "yes",
+        "no"
+      ],
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ]
+    },
+    {
+      "name": "dm",
+      "label": "Diabetes Mellitus",
+      "type": "categorical",
+      "dtype": "string",
+      "required": false,
+      "unit": "",
+      "description": "Has the patient been diagnosed with diabetes?",
+      "section": "history",
+      "allowed_values": [
+        "yes",
+        "no"
+      ],
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ]
+    },
+    {
+      "name": "cad",
+      "label": "Coronary Artery Disease",
+      "type": "categorical",
+      "dtype": "string",
+      "required": false,
+      "unit": "",
+      "description": "History of coronary artery disease.",
+      "section": "history",
+      "allowed_values": [
+        "yes",
+        "no"
+      ],
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ]
+    },
+    {
+      "name": "appet",
+      "label": "Appetite",
+      "type": "categorical",
+      "dtype": "string",
+      "required": false,
+      "unit": "",
+      "description": "Patient's appetite level.",
+      "section": "history",
+      "allowed_values": [
+        "good",
+        "poor"
+      ],
+      "options": [
+        {
+          "value": "good",
+          "label": "Good"
+        },
+        {
+          "value": "poor",
+          "label": "Poor"
+        }
+      ]
+    },
+    {
+      "name": "pe",
+      "label": "Pedal Edema",
+      "type": "categorical",
+      "dtype": "string",
+      "required": false,
+      "unit": "",
+      "description": "Fluid swelling in the feet or ankles.",
+      "section": "history",
+      "allowed_values": [
+        "yes",
+        "no"
+      ],
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ]
+    },
+    {
+      "name": "ane",
+      "label": "Anemia",
+      "type": "categorical",
+      "dtype": "string",
+      "required": false,
+      "unit": "",
+      "description": "Has the patient been diagnosed with anemia?",
+      "section": "history",
+      "allowed_values": [
+        "yes",
+        "no"
+      ],
+      "options": [
+        {
+          "value": "yes",
+          "label": "Yes"
+        },
+        {
+          "value": "no",
+          "label": "No"
+        }
+      ]
+    }
+  ],
+  "feature_list": [
+    {
+      "name": "age",
+      "type": "numeric",
+      "dtype": "float"
+    },
+    {
+      "name": "bp",
+      "type": "numeric",
+      "dtype": "float"
+    },
+    {
+      "name": "sg",
+      "type": "numeric",
+      "dtype": "float"
+    },
+    {
+      "name": "al",
+      "type": "numeric",
+      "dtype": "integer"
+    },
+    {
+      "name": "su",
+      "type": "numeric",
+      "dtype": "integer"
+    },
+    {
+      "name": "rbc",
+      "type": "categorical",
+      "dtype": "string"
+    },
+    {
+      "name": "pc",
+      "type": "categorical",
+      "dtype": "string"
+    },
+    {
+      "name": "pcc",
+      "type": "categorical",
+      "dtype": "string"
+    },
+    {
+      "name": "ba",
+      "type": "categorical",
+      "dtype": "string"
+    },
+    {
+      "name": "bgr",
+      "type": "numeric",
+      "dtype": "float"
+    },
+    {
+      "name": "bu",
+      "type": "numeric",
+      "dtype": "float"
+    },
+    {
+      "name": "sc",
+      "type": "numeric",
+      "dtype": "float"
+    },
+    {
+      "name": "sod",
+      "type": "numeric",
+      "dtype": "float"
+    },
+    {
+      "name": "pot",
+      "type": "numeric",
+      "dtype": "float"
+    },
+    {
+      "name": "hemo",
+      "type": "numeric",
+      "dtype": "float"
+    },
+    {
+      "name": "pcv",
+      "type": "numeric",
+      "dtype": "float"
+    },
+    {
+      "name": "wc",
+      "type": "numeric",
+      "dtype": "float"
+    },
+    {
+      "name": "rc",
+      "type": "numeric",
+      "dtype": "float"
+    },
+    {
+      "name": "htn",
+      "type": "categorical",
+      "dtype": "string"
+    },
+    {
+      "name": "dm",
+      "type": "categorical",
+      "dtype": "string"
+    },
+    {
+      "name": "cad",
+      "type": "categorical",
+      "dtype": "string"
+    },
+    {
+      "name": "appet",
+      "type": "categorical",
+      "dtype": "string"
+    },
+    {
+      "name": "pe",
+      "type": "categorical",
+      "dtype": "string"
+    },
+    {
+      "name": "ane",
+      "type": "categorical",
+      "dtype": "string"
+    }
+  ],
+  "allowed_categorical_values": {
+    "rbc": [
+      "normal",
+      "abnormal"
+    ],
+    "pc": [
+      "normal",
+      "abnormal"
+    ],
+    "pcc": [
+      "present",
+      "notpresent"
+    ],
+    "ba": [
+      "present",
+      "notpresent"
+    ],
+    "htn": [
+      "yes",
+      "no"
+    ],
+    "dm": [
+      "yes",
+      "no"
+    ],
+    "cad": [
+      "yes",
+      "no"
+    ],
+    "appet": [
+      "good",
+      "poor"
+    ],
+    "pe": [
+      "yes",
+      "no"
+    ],
+    "ane": [
+      "yes",
+      "no"
+    ]
+  },
+  "numeric_ranges": {
+    "age": {
+      "min": 2.0,
+      "max": 90.0
+    },
+    "bp": {
+      "min": 50.0,
+      "max": 180.0
+    },
+    "sg": {
+      "min": 1.005,
+      "max": 1.025
+    },
+    "al": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "su": {
+      "min": 0.0,
+      "max": 5.0
+    },
+    "bgr": {
+      "min": 22.0,
+      "max": 490.0
+    },
+    "bu": {
+      "min": 1.5,
+      "max": 391.0
+    },
+    "sc": {
+      "min": 0.4,
+      "max": 76.0
+    },
+    "sod": {
+      "min": 4.5,
+      "max": 163.0
+    },
+    "pot": {
+      "min": 2.5,
+      "max": 47.0
+    },
+    "hemo": {
+      "min": 3.1,
+      "max": 17.8
+    },
+    "pcv": {
+      "min": 9.0,
+      "max": 54.0
+    },
+    "wc": {
+      "min": 2200.0,
+      "max": 26400.0
+    },
+    "rc": {
+      "min": 2.1,
+      "max": 8.0
+    }
+  },
+  "evaluation": {
+    "accuracy": 0.925,
+    "precision": 0.9783,
+    "recall": 0.9,
+    "f1_score": 0.9375,
+    "roc_auc": 0.9967,
+    "confusion_matrix": [
+      [
+        29,
+        1
+      ],
+      [
+        5,
+        45
+      ]
+    ],
+    "confusion_matrix_labels": {
+      "rows": [
+        "actual_not_ckd",
+        "actual_ckd"
+      ],
+      "columns": [
+        "predicted_not_ckd",
+        "predicted_ckd"
+      ]
+    },
+    "support": {
+      "not_ckd": 30,
+      "ckd": 50
+    },
+    "cv_5fold_roc_auc_mean": 0.9983,
+    "cv_5fold_roc_auc_std": 0.0017,
+    "cv_5fold_roc_auc_folds": [
+      0.999,
+      0.9969,
+      0.9958,
+      1.0,
+      1.0
+    ],
+    "cv_5fold_accuracy_mean": 0.9719,
+    "cv_5fold_accuracy_std": 0.0117,
+    "cv_5fold_accuracy_folds": [
+      0.9844,
+      0.9688,
+      0.9531,
+      0.9688,
+      0.9844
+    ],
+    "train_size": 320,
+    "test_size": 80
+  },
+  "training_date": "2026-11-02T10:47:53+00:00",
+  "dataset_size": 400,
+  "dataset": {
+    "name": "UCI Chronic Kidney Disease",
+    "uci_id": 336,
+    "source": "https://archive.ics.uci.edu/dataset/336/chronic+kidney+disease",
+    "n_rows": 400,
+    "n_features": 24,
+    "missing_values_total": 1012,
+    "class_distribution": {
+      "ckd": 250,
+      "notckd": 150
+    }
+  },
+  "target_distribution": {
+    "ckd": 250,
+    "notckd": 150
+  },
+  "target_mapping": {
+    "ckd": 1,
+    "notckd": 0
+  },
+  "samples": {
+    "ckd": {
+      "age": 60,
+      "bp": 80,
+      "sg": 1.01,
+      "al": 3,
+      "su": 4,
+      "rbc": "abnormal",
+      "pc": "abnormal",
+      "pcc": "present",
+      "ba": "present",
+      "bgr": 423,
+      "bu": 53,
+      "sc": 1.8,
+      "sod": 137,
+      "pot": 4.5,
+      "hemo": 9.6,
+      "pcv": 31,
+      "wc": 7500,
+      "rc": 3.9,
+      "htn": "yes",
+      "dm": "yes",
+      "cad": "no",
+      "appet": "poor",
+      "pe": "no",
+      "ane": "yes"
+    },
+    "not_ckd": {
+      "age": 35,
+      "bp": 70,
+      "sg": 1.02,
+      "al": 0,
+      "su": 0,
+      "rbc": "normal",
+      "pc": "normal",
+      "pcc": "notpresent",
+      "ba": "notpresent",
+      "bgr": 95,
+      "bu": 25,
+      "sc": 0.9,
+      "sod": 140,
+      "pot": 4.2,
+      "hemo": 15.2,
+      "pcv": 45,
+      "wc": 7200,
+      "rc": 5.1,
+      "htn": "no",
+      "dm": "no",
+      "cad": "no",
+      "appet": "good",
+      "pe": "no",
+      "ane": "no"
+    }
+  },
+  "random_state": 42,
+  "feature_importance_top10": [
+    {
+      "feature": "numeric__hemo",
+      "importance": 0.196
+    },
+    {
+      "feature": "numeric__sc",
+      "importance": 0.1536
+    },
+    {
+      "feature": "numeric__pcv",
+      "importance": 0.1431
+    },
+    {
+      "feature": "numeric__rc",
+      "importance": 0.0878
+    },
+    {
+      "feature": "categorical__htn_no",
+      "importance": 0.0842
+    },
+    {
+      "feature": "numeric__sg",
+      "importance": 0.0806
+    },
+    {
+      "feature": "numeric__al",
+      "importance": 0.0455
+    },
+    {
+      "feature": "numeric__bu",
+      "importance": 0.0412
+    },
+    {
+      "feature": "categorical__htn_yes",
+      "importance": 0.0377
+    },
+    {
+      "feature": "categorical__dm_no",
+      "importance": 0.0266
+    }
+  ],
+  "environment": {
+    "python": "3.10.0",
+    "pandas": "2.2.3"
+  },
+  "disclaimer": "Model output only, not a medical diagnosis."
+}

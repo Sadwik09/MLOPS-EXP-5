@@ -1,0 +1,36 @@
+# Virtual environments
+.venv/
+.venv*/
+venv/
+env/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Secrets / local config
+.env
+.env.*
+!.env.example
+
+# Test and dev junk
+tests/
+*.md
+.git/
+.gitignore
+.dockerignore
+Dockerfile
+render.yaml
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log

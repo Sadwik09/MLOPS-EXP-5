@@ -1,0 +1,30 @@
+# Virtual environments
+.venv/
+.venv*/
+venv/
+env/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Secrets / local config
+.env
+.env.*
+!.env.example
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log
+
+# NOTE: data/kidney_disease.csv and artifacts/*.joblib are intentionally
+# committed so the service can be built/deployed without retraining.
